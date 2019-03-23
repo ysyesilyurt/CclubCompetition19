@@ -19,27 +19,20 @@ def foodCode(s, rules):
     for j in range(lens):
         letter = s[j]
         visited = set()
-        while letter in rules:
-            if letter in visited:
-                res.append(letter)
-                break
-            elif rules[letter] in rules:
-                visited.add(letter)
-                letter = rules[letter]
-            else:
-                res.append(rules[letter])
-                break
-        else:
-            res.append(s[j])
+        for i in range(len(rules)-1,-1,-1):
+            #print(i)
+            if(rules[i][1] == letter):
+                letter = rules[i][0]
+        res.append(letter)
     print("".join(res))
 
 
 if __name__ == '__main__':
-    rules = {}
+    rules = []
     s = input()
     n = int(input())
     for i in range(n):
         lst = input().split(" ")
-        rules[lst[1]] = lst[0]
+        rules.append(lst)
     foodCode(s, rules)
 
