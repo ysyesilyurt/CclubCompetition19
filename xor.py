@@ -1,43 +1,49 @@
-def findOnes(a,b):
-    temp = a ^ b
-    ret = 0
-    while(temp):
-        if(temp%2 == 1):
-            ret += 1
-        temp = int(temp/2)
-    return ret
+#!/usr/bin/env python3
 
-if __name__ == "__main__":
-    n = int(input())
+"""
+Sample Input
+4
+1 2
+2 1
+1 1
+2 3
+
+Sample Output
+2
+1
+"""
+
+# 1000 < n < 10000
+
+if __name__ == '__main__':
     sinan = []
-    tempDict = {}
-    for i in range(n):
-        line = list(map(int, input().split(" ")))
-        minNumber = 100
-        if(line[0] == 1):
-            newNumber = line[1]
-            sinan.append(newNumber)
-            for b in tempDict: #önceden eklenmiş numaralar için mini güncelle
-                bVal = tempDict.get(b)
-                if(bVal == 0):
-                    continue
-                minNumber = findOnes(b,newNumber)
-                #print("a:" + str(newNumber) + "-b:"+ str(b)+"->"+str(minNumber))
-                if(bVal > minNumber):
-                    tempDict[b] = minNumber       
+    sinanDct = set()
+    usedIndexes = {}
+    stuff = {}
+    n = int(input())
+    for _ in range(n):
+        inp = list(map(int, input().split(" ")))
+        if inp[0] == 1:
+            sinan.append(inp[1])
+            sinanDct.add(inp[1])
         else:
-            a = line[1]
-            if (a in tempDict):
-                minNumber = tempDict.get(a)
+            if inp[1] in sinanDct:
+                print(0)
             else:
-                if(a in sinan):
-                    minNumber = 0
-                else:
-                    lenSinan = len(sinan)
-                    for j in range(lenSinan):
-                        b = sinan[j]
-                        tempMin = findOnes(a,b)
-                        if (tempMin < minNumber):
-                            minNumber = tempMin
-                tempDict[a] = minNumber
-            print(minNumber)
+                minCount = 32
+                for numS in sinan:
+                    if numS % inp[1] > inp[1]:
+                        continue
+                    res = numS ^ inp[1]
+                    if res in stuff:
+                        leno = stuff[res]
+                    else:
+                        binaryRep = bin(res)
+                        leno = 0
+                        for ones in binaryRep[2:]:
+                            if ones == '1':
+                                leno += 1
+                        stuff[res] = leno
+                    if leno < minCount:
+                        minCount = leno
+                print(minCount)
