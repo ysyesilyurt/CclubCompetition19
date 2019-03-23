@@ -18,7 +18,6 @@ def foodCode(s, rules):
     res = []
     for j in range(lens):
         letter = s[j]
-        visited = set()
         for i in range(len(rules)-1,-1,-1):
             #print(i)
             if(rules[i][1] == letter):
@@ -31,7 +30,7 @@ if __name__ == '__main__':
     rules = []
     s = input()
     n = int(input())
-    for i in range(n):
+    for _ in range(n):
         lst = input().split(" ")
         rules.append(lst)
     foodCode(s, rules)
